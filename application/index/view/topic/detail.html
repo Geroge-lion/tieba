@@ -1,0 +1,172 @@
+<?php require(APP_PATH.'/index/view/common/header.html');?>
+<div id="main" class="main-container container">
+  <div class="row max-width">
+    <div class="col-xs-12">
+      <ul class="breadcrumb">
+        <li>
+          <a href="index.html">首页</a>
+        </li>
+        <li>
+          <span>帖子详情</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-9 threads-show main-col">
+    <div class="thread panel panel-default">
+      <div class="infos panel-heading">
+        <div class="pull-right avatar">
+            <a href="my.html"> <img src="/tieba/public/static/index/images/avatar.jpg" class="media-object img-thumbnail avatar-64"/> </a>
+        </div>
+        <h1 class="panel-title thread-title"><?=$topic->title;?></h1>
+
+        <div class="likes" id='likes'>
+          <a href="javascript:void(0)" title="赞" data-url="<?=url('topic/praise');?>?topicId=<?=$topic->id;?>" class="fa fa-thumbs-o-up" id='likeTopic'>
+           <?=isset($topic->praises_count)?$topic->praises_count:0;?> 
+          </a>
+        </div>
+       <script type="text/javascript">
+         $('#likeTopic').on('click',function(){
+          $.get("<?=APP_ENTRY?>topic/praise?topicId=<?=$topic->id;?>",
+            function(data){
+             location.reload();
+          })
+         })
+       </script>
+        <div class="meta inline-block">
+          <a href="#" class="remove-padding-left"> <?=$categoryNames[0];?> </a> • <a href="#"> <?=$categoryNames[1];?></a>
+          •
+          <a href="#"> <?=$topic->user->name;?> </a> 于 <abbr class="timeago"><?=date('Y-m-d H:i:s', $topic->create_at);?></abbr>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="panel-body content-body">
+        <div class="markdown-body" id="emojify">
+          <?=nl2br($topic->content);?>
+        </div>
+      </div>
+
+      <div class="panel-footer operate">
+
+        <div class="pull-right">
+          <?php if(isset($user) && ($user->id === $topic->user_id)):?>
+          <a href="#">编辑</a>
+          <?php endif;?>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <span class="tag-list hidden-xs">Tags:
+            <?php foreach($topicTags as $topicTag):?>
+            <a href="<?=url('topic/tag');?>?tag=<?=$topicTag->tag->name;?>"><span class="tag"><?=$topicTag->tag->name;?></span></a>
+            <?php endforeach;?>
+          </span>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+
+        <!-- Reply List -->
+    <div class="replies panel panel-default list-panel replies-index">
+      <div class="panel-heading">
+        <div class="total">回复总数: <b><?=$topic->replies_count;?> </b></div>
+      </div>
+
+      <div class="panel-body">
+        <ul class="list-group row">
+         <?php foreach($replies as $reply):?>
+          <li class="list-group-item media " id="reply<?=$reply->id;?>">
+            <div class="avatar pull-left">
+              <a href="my.html">
+                <img class="media-object img-thumbnail avatar" alt="strdemo" src="<?=STATIC_URL.$reply->user->avatar;?>" style="width:48px;height:48px;"/>
+              </a>
+            </div>
+            <div class="infos">
+              <div class="media-heading meta">
+                <a href="my.html" title="strdemo" class="remove-padding-left author"><?=$reply->user->name;?></a>
+                <abbr class="timeago" title="<?=date('Y-m-d H:i:s', $reply->create_at);?>">
+                  <?=date('Y-m-d H:i:s', $reply->create_at);?>
+                </abbr>
+                <a name="reply<?=$reply->id;?>" class="anchor" href="#reply<?=$reply->id;?>" aria-hidden="true"></a>
+                <span class="opts pull-right">
+                  <span class="hideable">
+                     <a class="fa fa-reply btn-reply2reply replyAble" href="#reply<?=$reply->id;?>" data-userName='<?=$reply->user->name;?>' data-replyId='<?=$reply->id;?>' title="回复 <?=$reply->user->name;?>"></a>
+                  </span>
+                </span>
+              </div>
+
+              <div class="media-body markdown-reply content-body">
+                <p><?=$reply->content;?></p>
+              </div>
+            </div>
+          </li>
+       <?php endforeach;?>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Reply Box -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+          发表回复
+      </div>
+      <div class="panel-body">
+        <div class="reply-box form">
+        <?php if(!$user):?>
+          <div style="padding:20px;">
+            需要
+            <a class="btn btn-success" href="<?=url('index/login');?>">登录</a>
+            后方可回复, 如果你还没有账号请点击这里
+            <a class="btn btn-primary" href="<?=APP_ENTRY;?>index/register">注册</a>。
+          </div>
+        <?php else:?>
+          <form method="POST" action="<?=url('reply/newReply');?>" accept-charset="UTF-8">
+            <div class="alert alert-warning">
+              文明回复，拒绝人生攻击，请不要发表与政治相关的敏感性言论.
+            </div>
+            <div class="form-group">
+              <Input type='hidden' id='replyId' name='reply_id' value=''/>
+              <Input type='hidden' name='topic_id' value='<?=$topic->id;?>'/>
+              <textarea id='replyContent' class="form-control" style="min-height:20px" placeholder="请撰写回复内容" name="content" cols="30" rows="10"></textarea>
+            </div>
+            <div class='pull-right'>
+              <button type="reset" class="btn btn-default" data-dismiss="modal">重置</button>
+              <button type="submit" class="btn btn-primary">提交</button>
+            </div>
+          </form>
+        <?php endif;?>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-md-3 side-bar">
+    <?php if(!$user):?>
+      <?php require(APP_PATH.'/index/view/common/login_sidebar.html');?>
+    <?php else : ?>
+      <?php require(APP_PATH.'/index/view/common/new_topic_sidebar.html');?>
+    <?php endif;?>
+
+    <div class="panel panel-default corner-radius">
+      <div class="panel-heading">
+        <h3 class="panel-title">小贴士</h3>
+      </div>
+      <div class="panel-body">
+        心若没有栖息的地方，到哪里都是在流浪!
+      </div>
+    </div>
+
+    <!--div class="panel panel-default corner-radius">
+      <div class="panel-heading">
+        <h3 class="panel-title">统计信息</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item">社区会员: 747</li>
+        <li class="list-group-item">主题数: 95</li>
+        <li class="list-group-item">回帖数: 218</li>
+      </ul>
+    </div-->
+  </div>
+  <div class="clearfix"></div>
+</div>
+<?php require(APP_PATH.'/index/view/common/footer.html');?>

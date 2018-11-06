@@ -1,0 +1,120 @@
+<?php require(APP_PATH.'/index/view/common/header.html');?>
+<div id="main" class="main-container container">
+				                <div class="row max-width">
+    <div class="col-xs-12">
+        <ul class="breadcrumb">
+            <li>
+                <a href="index.html">首页</a>
+            </li>
+                        <li>
+                               <strong>编辑帖子</strong>
+                            </li>
+                    </ul>
+    </div>
+</div>
+
+
+    <div class="thread_create">
+
+        <div class="col-md-9 main-col">
+            <div class="panel panel-default corner-radius">
+                <div class="panel-heading">编辑帖子</div>
+                <div class="panel-body">
+                    <div class="reply-box form box-block">
+                      <form method="POST" action="<?=url('topic/newTopic');?>?topicId=<?=$topic->id;?>" accept-charset="UTF-8" id="thread_create_form" class="create_form">
+                        <div class="form-group">
+                          <input class="form-control" value="<?=$topic->title;?>" id="thread_title" placeholder="标题" name="title" type="text">
+                        </div>
+                        <div class="form-group">
+                          <select class="form-control selectpicker" id='category_id' name="category_id">
+                            <option value="" disabled>选择节点</option>
+														<?php foreach($category as $c => $subCategory):?>
+															<optgroup label="<?=$c;?>">
+															<?php foreach($subCategory as $subc => $name):?>
+																<option value="<?=$subc;?>" <?=$topic->category_id == $subc ? 'selected' : '';?>> - <?=$name;?></option>
+															<?php endforeach;?>
+														<?php endforeach;?>
+                          </select>
+                        </div>
+                        <!-- editor start -->
+                        <div class="editor-toolbar">
+                          <ul class="nav nav-pills" style="clear:none;">
+                            <li class="edit active"><a href="#">帖子内容</a></li>
+                          </ul>
+                        </div>
+                        <!-- end -->
+                        <div class="form-group">
+                          <textarea class="post-editor form-control" rows="15" style="overflow:hidden" id="body_field" placeholder="请撰写内容" name="content" cols="50"><?=$topic->content;?></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <select class="form-control js-tag-tokenizer" id='tags' multiple="multiple" name="tags[]">
+														<?php foreach($tags as $tag):?>
+															<option value=<?=$tag->id;?> <?=in_array($tag->id, $selectTags) ? 'selected' : '';?>><?=$tag->name;?></option>
+														<?php endforeach;?>
+                            </select>
+                            <small>
+                                请填写标签，多个标签之间用 , 分隔
+                            </small>
+                        </div>
+
+                        <div class="form-group status-post-submit">
+                            <input class="btn btn-primary col-xs-2" id="thread-create-submit" type="submit" value="保存">
+                            <div class="pull-right">
+                                <a href="/markdown" target="_blank">
+                                  <i class="fa fa-lightbulb-o"></i> 排版说明
+                                </a>
+                            </div>
+                        </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-3 side-bar">
+
+
+            <div class="panel panel-default corner-radius help-box">
+                <div class="panel-heading text-center">
+                    <h3 class="panel-title">发帖提示</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list">
+                        <li>主题标题
+                            <p>请在标题中描述内容要点。</p>
+                        </li>
+                        <li>选择节点
+                            <p>请为你的主题选择一个节点。恰当的归类会让你发布的信息更有用。</p>
+                        </li>
+                        <li>正文
+                            <p>imooc 支持 <span style="font-family: Consolas, 'Panic Sans', mono"><a href="https://help.github.com/articles/github-flavored-markdown" target="_blank">GitHub Flavored Markdown</a></span> 文本标记语法。你可以在页面下方实时预览正文的实际渲染效果。</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel panel-default corner-radius help-box">
+                <div class="panel-heading text-center">
+                    <h3 class="panel-title">社区指导原则</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list">
+                        <li>尊重原创
+                            <p>请不要在 imooc 发布任何盗版链接，包括软件、音乐、电影等。</p>
+                        </li>
+                        <li>友好互助
+                            <p>保持对陌生人的友善。用知识去帮助别人。</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+                		</div>
+<?php require(APP_PATH.'/index/view/common/footer.html');?>

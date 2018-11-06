@@ -1,0 +1,107 @@
+<div class="col-md-9 threads-index main-col">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="pull-left hidden-sm hidden-xs">
+        <i class="fa fa-list"></i> 首页
+      </div>
+      <ul class="pull-right list-inline remove-margin-bottom thread-filter">
+        <li>
+          <a href="<?=APP_ENTRY?>topic/latest">
+            <i class="fa fa-history"></i> 最新话题
+          </a>
+        </li>
+        <!--li>
+          <a href="thread.html">
+            <i class="fa fa-diamond"> </i> 优质帖子
+          </a>
+        </li-->
+        <li>
+          <a href="<?=APP_ENTRY?>topic/mostPraises">
+            <i class="fa fa-thumbs-o-up"> </i> 最多点赞
+          </a>
+        </li>
+        <!--li>
+          <a href="thread.html">
+            <i class="fa fa-eye"></i> 等待回复
+          </a>
+        </li-->
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="panel-body remove-padding-horizontal">
+      <ul class="list-group row thread-list">
+      <?php foreach($topics as $topic) :?>
+        <li class="list-group-item media " style="margin-top: 0px;">
+          <span class="badge badge-reply-count"> <?=$topic->replies_count;?> </span>
+          <div class="avatar pull-left">
+            <a href="post.html">
+              <img class="media-object img-thumbnail avatar-48" alt="imooc" src="<?=STATIC_URL.$topic->user->avatar;?>"/>
+            </a>
+          </div>
+          <div class="infos">
+            <div class="media-heading">
+                <i class="fa fa-thumb-tack text-danger"></i>
+                <a href="<?=url('topic/detail');?>?id=<?=$topic->id;?>" title="<?=$topic->title;?>" >
+                  <?=$topic->title;?>
+                </a>
+            </div>
+            <div class="media-body meta">
+              <a href="javascript:void(0)" class='likeTopics' data-url="<?=url('topic/praise');?>?topicId=<?=$topic->id;?>">
+                <span class="fa fa-thumbs-o-up"> <?=$topic->praises_count;?> </span>
+              </a>
+              <span> • </span>
+              <?php $categorys = getCategoryNames($topic->category_id);?>
+              <span><?=$categorys[0];?></span>
+              <span> / </span>
+              <span><?=$categorys[1];?></span>
+              <span> • </span>
+
+              <a><?=$topic->user->name;?></a>
+              <span> • </span>
+              <span class="timeago" data-toggle="tooltip" data-placement="top" title="<?=date('Y-m-d H:i:s', $topic->create_at);?>">
+                <?=date('Y-m-d H:i:s', $topic->create_at);?>
+              </span>
+            </div>
+          </div>
+        </li>
+      <?php endforeach;?>
+      </ul>
+    </div>
+
+    <script type="text/javascript">
+         $('.panel-body .list-group .infos .media-body .likeTopics').on('click',function(){
+          var dataUrl=$(this).data('url');
+          $.get(dataUrl,
+            function(data){
+             location.reload();
+          })
+         })
+       </script>
+
+    <div class="panel-footer text-right remove-padding-horizontal pager-footer">
+      <?php  $keyword = isset($keyword) ? $keyword : '';?>
+      <?php  $tagId = isset($tagId) ? $tagId : '';?>
+      <!-- Pager -->
+      <ul class="pagination">
+      <?php  if($page <= 1):?>
+        <li class="disabled"><span>&laquo;</span></li>
+      <?php  else:?>
+        <li><a href="?page=1&keyword=<?=$keyword;?>&tag=<?=$tagId;?>">&laquo;</a></li>
+      <?php  endif;?>
+      <?php  foreach($showPages as $showPage):?>
+      <?php  if($page == $showPage):?>
+        <li class="active"><span><?=$page;?></span></li>
+      <?php  else:?>
+        <li><a href="?page=<?=$showPage;?>&keyword=<?=$keyword;?>&tag=<?=$tagId;?>"><?=$showPage;?></a></li>
+      <?php  endif;?>
+      <?php  endforeach;?>
+      <?php  if($page < $pageNum):?>
+        <li><a href="?page=<?=$pageNum;?>&keyword=<?=$keyword;?>&tag=<?=$tagId;?>" rel="next">&raquo;</a></li>
+      <?php  else:?>
+        <li class="disabled"><span>&raquo;</span></li>
+      <?php  endif;?>
+      </ul>
+    </div>
+  </div>
+</div>
