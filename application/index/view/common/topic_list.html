@@ -59,8 +59,8 @@
 
               <a><?=$topic->user->name;?></a>
               <span> • </span>
-              <span class="timeago" data-toggle="tooltip" data-placement="top" title="<?=date('Y-m-d H:i:s', $topic->create_at);?>">
-                <?=date('Y-m-d H:i:s', $topic->create_at);?>
+              <span class="timeago" data-toggle="tooltip" data-placement="top" title="<?=date('Y-m-d H:i:s', $topic->created_at);?>">
+                <?=date('Y-m-d H:i:s', $topic->created_at);?>
               </span>
             </div>
           </div>
