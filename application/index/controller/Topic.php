@@ -18,7 +18,7 @@ class Topic extends Controller
         $topic->content=$postData['content'];
         $topic->user_id=$user->id;
         $topic->category_id=$postData['category_id'];
-        $topic->create_at=intval(microtime(true));
+        $topic->created_at=intval(microtime(true));
         $topic->save();
     	
     	$tags=$postData['tags'];
