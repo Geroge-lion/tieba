@@ -1,4 +1,7 @@
 .idea
 composer.lock
 *.log
+*.xml
 thinkphp
+runtime
+vendor
