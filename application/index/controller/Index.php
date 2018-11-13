@@ -6,7 +6,13 @@ class Index extends Controller
 {
     public function index()
     {
-        return $this->fetch();
+        $page=input('?get.page')?input('get.page'):1;
+        //[$page,$showPages,$pageNum]
+        $pageInfo=TopicModel::getPageInfo($page);
+        $topics=TopicModel::getTopics($page);
+        $hotTags=TopicTagModel::getHotTags(config('hotTagsNum'));
+        $this->assign(['topics'=>$topics,'user'=>session('user'),'page'=>$pageInfo['page'],'showPages'=>$pageInfo['showPages'],'pageNum'=>$pageInfo['pageNum'],'hotTags'=>$hotTags]);
+        echo $this->fetch('index');
     }
     public function register(){
     	if(request()->isPost()){
