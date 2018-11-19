@@ -32,7 +32,7 @@
     <div class="panel-body remove-padding-horizontal">
       <ul class="list-group row thread-list">
       <?php foreach($topics as $topic) :?>
-        <li class="list-group-item media " style="margin-top: 0px;">
+        <li class="list-group-item media " style="margin-top: 0px;" onclick='window.location.href="<?=url('topic/detail');?>?id=<?=$topic->id;?>"'>
           <span class="badge badge-reply-count"> <?=$topic->replies_count;?> </span>
           <div class="avatar pull-left">
             <a href="<?=url('index/userinfo');?>?id=<?=$topic->user->id;?>">
