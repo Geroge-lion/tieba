@@ -1,66 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>518论坛</title>
-  <link rel="stylesheet" href="<?=STATIC_URL?>css/all-df86af5803.css">
-  <script src="<?=STATIC_URL?>js/all-17476e6cc3.js"></script>
-  <script src="<?=STATIC_URL?>js/app.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>lwa论坛</title>
+    <link rel="stylesheet" href="<?=STATIC_URL?>css/all-df86af5803.css">
+    <script src="<?=STATIC_URL?>js/jquery.js"></script> -->
 </head>
+
 <body class="forum" data-page="forum">
-  <div class="header">
-    <nav class="navbar navbar-inverse navbar-fixed-top navbar-default">
-      <div class="container">
-        <div class="navbar-header" id="navbar-header">
-          <a href="<?=url('topic/index');?>" class="navbar-brand"><img src="<?=STATIC_URL;?>images/logo.png"></a>
-        </div>
-        <div id="main-nav-menu">
-          <ul class="nav navbar-nav">
-            <li class="active">
-              <a href="<?=url('topic/index');?>">
+    <div class="header">
+        <nav class="navbar navbar-inverse navbar-fixed-top navbar-default">
+            <div class="container">
+                <div class="navbar-header" id="navbar-header">
+                    <a href="<?=url('topic/index');?>" class="navbar-brand"><img src="<?=STATIC_URL;?>images/logo.png"></a>
+                </div>
+                <div id="main-nav-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="<?=url('topic/index');?>">
                 <i class="fa fa-home"></i>
                 <span class="hidden-xs hidden-sm">首页</span>
               </a>
-            </li>
-            <!--li class="hidden-sm hidden-xs"><a href="thread.html"><i class="fa fa-comments-o"></i> 话题</a></li-->
-          </ul>
-        </div>
-
-        <ul class="nav navbar-nav navbar-right">
-          <li class="nav-search hidden-xs hidden-sm">
-            <?php $page = isset($page) ? $page : 1;?>
-            <form method="GET" action="<?=APP_ENTRY?>topic/search" accept-charset="UTF-8" class="navbar-form form-search active" target="_blank" >
+                        </li>
+                        <!--li class="hidden-sm hidden-xs"><a href="thread.html"><i class="fa fa-comments-o"></i> 话题</a></li-->
+                    </ul>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-search hidden-xs hidden-sm">
+                        <form method="GET" action="<?=APP_ENTRY?>topic/search" accept-charset="UTF-8" class="navbar-form form-search active" target="_blank">
                             <div class="form-group">
                                 <input placeholder="搜索" class="form-control" name="keyword" type="search">
                             </div>
                             <button type="submit" style="border:0;padding:0;margin:0"><i class="fa fa-search"></i></button>
                         </form>
-          </li>
-        <?php if (!isset($user)||!$user) :?>
-          <li><a href="<?=url('index/register')?>" id="signup-btn">注册</a></li>
-          <li><a href="<?=url('index/login')?>" id="login-btn">登录</a></li>
-        <?php else :?>
-          <li>
-            <ul class="nav user-bar navbar-nav navbar-right">
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?=$user['name'];?> <span class="caret"></span></a>
-                <button class="navbar-toggle" type="button" data-toggle="dropdown" role="button" aria-expanded="false">
-                  <span class="sr-only">Toggle</span>
-                  <i class="fa fa-reorder"></i>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <!--li><a href="my.html">个人设置</a></li-->
-                  <li class='divider'></li>
-                  <li>
-                    <a href="<?=url('index/logout');?>" onclick="return confirm('你确定要退出吗?')"><i class="fa fa-sign-out"></i> 退出</a>
-                  </li>
+                    </li>
+                    <?php if (!isset($user)||!$user) :?>
+                    <li><a href="<?=url('index/register')?>" id="signup-btn">注册</a></li>
+                    <li><a href="<?=url('index/login')?>" id="login-btn">登录</a></li>
+                    <?php else :?>
+                    <li>
+                        <ul class="nav user-bar navbar-nav navbar-right">
+                            <li class="dropdown user-info">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?=$user['name'];?> <span class="caret"></span></a>
+                                <button class="navbar-toggle" type="button" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    <span class="sr-only">Toggle</span>
+                                    <i class="fa fa-reorder"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class=""><a href="<?=url('index/userinfo');?>?id=<?=$user->id;?>">我的主页</a></li>
+                                    <li>
+                                        <div class='divider'></div>
+                                    </li>
+                                    <li><a href="<?=url('index/password');?>">个人设置</a></li>
+                                    <li><a href="<?=url('index/score');?>">我的积分</a></li>
+                                    <li class='divider'></li>
+                                    <li><a href="<?=url('index/logout');?>" onclick=" return confirm('你确定要退出吗?')"><i class="fa fa-sign-out"></i> 退出
+                            </a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <?php endif;?>
                 </ul>
-              </li>
-            </ul>
-          </li>
-        <?php endif;?>
-        </ul>
-      </div>
-    </nav>
-  </div>
+            </div>
+        </nav>
+    </div>
+    <script type="text/javascript">
+    $('.user-info').click(function() {
+        childUl = $(this).children('.dropdown-menu');
+        if (childUl.css('display') == 'none') {
+            childUl.show();
+        } else {
+            childUl.hide();
+        }
+    });
+    </script>

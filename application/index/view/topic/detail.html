@@ -17,7 +17,7 @@
     <div class="thread panel panel-default">
       <div class="infos panel-heading">
         <div class="pull-right avatar">
-            <a href="my.html"> <img src="/tieba/public/static/index/images/avatar.jpg" class="media-object img-thumbnail avatar-64"/> </a>
+            <a href="<?=url('index/userinfo')?>?id={$topic->user->id}"> <img src="/tieba/public/static/index/{$topic->user->avatar}" class="media-object img-thumbnail avatar-64"/> </a>
         </div>
         <h1 class="panel-title thread-title"><?=$topic->title;?></h1>
 
@@ -76,20 +76,20 @@
          <?php foreach($replies as $reply):?>
           <li class="list-group-item media " id="reply<?=$reply->id;?>">
             <div class="avatar pull-left">
-              <a href="my.html">
+              <a href="<?=url('index/userinfo')?>?id=<?=$reply->user->id;?>">
                 <img class="media-object img-thumbnail avatar" alt="strdemo" src="<?=STATIC_URL.$reply->user->avatar;?>" style="width:48px;height:48px;"/>
               </a>
             </div>
             <div class="infos">
               <div class="media-heading meta">
-                <a href="my.html" title="strdemo" class="remove-padding-left author"><?=$reply->user->name;?></a>
+                <a href="<?=url('index/userinfo')?>?id=<?=$reply->user->id;?>" title="strdemo" class="remove-padding-left author"><?=$reply->user->name;?></a>
                 <abbr class="timeago" title="<?=date('Y-m-d H:i:s', $reply->created_at);?>">
                   <?=date('Y-m-d H:i:s', $reply->created_at);?>
                 </abbr>
-                <a name="reply<?=$reply->id;?>" class="anchor" href="#reply<?=$reply->id;?>" aria-hidden="true"></a>
+                <a name="reply<?=$reply->id;?>" class="anchor" href="javascript:void(0);" aria-hidden="true"></a>
                 <span class="opts pull-right">
                   <span class="hideable">
-                     <a class="fa fa-reply btn-reply2reply replyAble" href="#reply<?=$reply->id;?>" data-userName='<?=$reply->user->name;?>' data-replyId='<?=$reply->id;?>' title="回复 <?=$reply->user->name;?>"></a>
+                     <a class="fa fa-reply btn-reply2reply replyAble" href="javascript:void(0);" data-userName='<?=$reply->user->name;?>' data-replyId='<?=$reply->id;?>' onclick='replyUser(this)' title="回复 <?=$reply->user->name;?>"></a>
                   </span>
                 </span>
               </div>
@@ -103,6 +103,13 @@
         </ul>
       </div>
     </div>
+    <script type="text/javascript">
+      function replyUser(obj){
+        username=$(obj).attr('data-userName');
+        $('#replyId').val(username);
+        $('#replyContent').val('@ '+username+' :');
+      }
+    </script>
 
     <!-- Reply Box -->
     <div class="panel panel-default">
@@ -126,7 +133,7 @@
             <div class="form-group">
               <Input type='hidden' id='replyId' name='reply_id' value=''/>
               <Input type='hidden' name='topic_id' value='<?=$topic->id;?>'/>
-              <textarea id='replyContent' class="form-control" style="min-height:20px" placeholder="请撰写回复内容" name="content" cols="30" rows="10"></textarea>
+              <textarea id='replyContent' class="form-control" style="min-height:20px" placeholder="回复楼主" name="content" cols="30" rows="10"></textarea>
             </div>
             <div class='pull-right'>
               <button type="reset" class="btn btn-default" data-dismiss="modal">重置</button>
@@ -155,17 +162,6 @@
         心若没有栖息的地方，到哪里都是在流浪!
       </div>
     </div>
-
-    <!--div class="panel panel-default corner-radius">
-      <div class="panel-heading">
-        <h3 class="panel-title">统计信息</h3>
-      </div>
-      <ul class="list-group">
-        <li class="list-group-item">社区会员: 747</li>
-        <li class="list-group-item">主题数: 95</li>
-        <li class="list-group-item">回帖数: 218</li>
-      </ul>
-    </div-->
   </div>
   <div class="clearfix"></div>
 </div>

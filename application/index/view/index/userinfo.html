@@ -1,0 +1,63 @@
+<?php require(APP_PATH.'/index/view/common/header.html');?>
+<div id="main" class="main-container container">
+    <div class="users-show">
+        <div class="col-md-3 box">
+            <div style="text-align: center;">
+                <img src="<?=STATIC_URL.$user_view->avatar;?>" class="img-thumbnail users-show-avatar upload-btn" style="width: 206px;margin: 4px 4px 15px;min-height:190px;cursor: pointer;">
+      </div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        <lable>用&nbsp;户id:</lable>
+                    </dt>
+                    <dd>{$user_view->id}</dd>
+                    <dt><label>用户名:</label></dt>
+                    <dd><strong>{$user_view->name}</strong></dd>
+                    <dt><label>注&nbsp;&nbsp;&nbsp;册:</label></dt>
+                    <dd><span>{$user_view->created_at|date="Y-m-d h:i", ###}</span></dd>
+                </dl>
+                <div class="clearfix"></div>
+                <a class="btn btn-primary btn-block" href="my.html" id="user-edit-button">
+        <i class="fa fa-edit"></i> 个人设置
+      </a>
+                <a class="btn btn-success btn-block" href="###" id="user-edit-button">
+        <i class="fa fa-github"></i> 绑定 Github 账号
+      </a>
+            </div>
+            <div class="col-md-9 left-col">
+                <div class="panel panel-default">
+                    <div class="panel-body ">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active"><a href="">用户信息</a></li>
+                        </ul>
+                        <form role="form"  action="#">
+                            <div class="form-group">
+                                <label>昵称</label>
+                                <input class="form-control" placeholder="昵称" name="nickname" type="text" readonly="readonly" value="{$user_info->nickname}">
+                            </div>
+                            <div class="form-group">
+                                <label>城市</label>
+                                <input class="form-control" placeholder="城市" name="location" type="text" readonly="readonly" value="{$user_info->location}">
+                            </div>
+                            <div class="form-group">
+                                <label>公司</label>
+                                <input class="form-control" placeholder="公司" name="company" type="text" readonly="readonly" value="{$user_info->company}" >
+                            </div>
+                            <div class="form-group">
+                                <label>网址</label>
+                                <input class="form-control" placeholder="网址" name="website" type="text" readonly="readonly" value="{$user_info->website}">
+                            </div>
+                            <div class="form-group">
+                                <label>个性签名</label>
+                                <textarea class="form-control" rows="3" placeholder="个性签名" name="signature" cols="50" readonly="readonly">{$user_info->signature}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>自我介绍</label>
+                                <textarea class="form-control" rows="3" placeholder="自我介绍" name="bio" cols="50" readonly="readonly">{$user_info->intro}</textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php require(APP_PATH.'/index/view/common/footer.html');?>

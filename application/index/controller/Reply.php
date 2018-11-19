@@ -11,7 +11,7 @@ public function newReply(){
     $reply->content=$postData['content'];
     $reply->topic_id=$postData['topic_id'];
     $reply->user_id=$user->id;
-    $reply->create_at=time();
+    $reply->created_at=time();
     $reply->reply_id=$postData['reply_id']>0?$postData['reply_id']:0;
     $reply->save();
     $this->success('恭喜您，回复成功！');

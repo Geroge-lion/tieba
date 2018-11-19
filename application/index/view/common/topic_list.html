@@ -35,7 +35,7 @@
         <li class="list-group-item media " style="margin-top: 0px;">
           <span class="badge badge-reply-count"> <?=$topic->replies_count;?> </span>
           <div class="avatar pull-left">
-            <a href="post.html">
+            <a href="<?=url('index/userinfo');?>?id=<?=$topic->user->id;?>">
               <img class="media-object img-thumbnail avatar-48" alt="imooc" src="<?=STATIC_URL.$topic->user->avatar;?>"/>
             </a>
           </div>
@@ -72,9 +72,13 @@
     <script type="text/javascript">
          $('.panel-body .list-group .infos .media-body .likeTopics').on('click',function(){
           var dataUrl=$(this).data('url');
-          $.get(dataUrl,
+          $.get(dataUrl,dataType="text",
             function(data){
-             location.reload();
+              if(data=='not login'){
+                location.href='/tieba/public/index.php/index/index/login';
+              }else{
+                location.reload(); 
+              }
           })
          })
        </script>
